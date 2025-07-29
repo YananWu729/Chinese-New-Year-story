@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>春节故事</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #c62828, #e53935, #ff8f00);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><path d="M20,50 Q30,20 50,20 Q70,20 80,50 Q70,80 50,80 Q30,80 20,50 Z" fill="none" stroke="%23FFD700" stroke-width="0.5" opacity="0.1"/></svg>');
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 25px;
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        h1 {
+            font-size: 4.5rem;
+            color: #FFD700;
+            text-shadow: 0 3px 15px rgba(198, 40, 40, 0.8);
+            font-weight: 700;
+            letter-spacing: 5px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: 3px solid #FFD700;
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card-header {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #c62828, #d32f2f);
+            color: white;
+            position: relative;
+        }
+        
+        .card-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF8C00, #FFD700, #FF8C00);
+        }
+        
+        .card-header h2 {
+            font-size: 2.2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+        
+        .card-content {
+            padding: 40px;
+            position: relative;
+        }
+        
+        .story-text {
+            font-size: 1.6rem;
+            line-height: 1.9;
+            color: #5a2d0d;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .story-text p {
+            margin-bottom: 35px;
+            position: relative;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 30px 40px;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .btn {
+            padding: 18px 50px;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn i {
+            font-size: 1.7rem;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .play-btn {
+            background: linear-gradient(to right, #e53935, #c62828);
+            color: white;
+            min-width: 300px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .play-btn:hover {
+            background: linear-gradient(to right, #d32f2f, #b71c1c);
+            box-shadow: 0 8px 25px rgba(229, 57, 53, 0.6);
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 248, 225, 0.9);
+            padding: 15px 30px;
+            border-radius: 50px;
+            width: 100%;
+            max-width: 500px;
+            font-size: 1.2rem;
+            border: 1px dashed #FF8C00;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            padding: 18px;
+            animation: fadeIn 1.4s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            .card-header h2 {
+                font-size: 1.9rem;
+            }
+            
+            .story-text {
+                font-size: 1.4rem;
+            }
+            
+            .btn {
+                padding: 16px 40px;
+                font-size: 1.3rem;
+                min-width: 260px;
+            }
+        }
+        
+        .highlight {
+            color: #c62828;
+            font-weight: bold;
+            font-size: 1.7rem;
+            position: relative;
+            display: inline-block;
+            padding: 0 5px;
+        }
+        
+        .highlight::after {
+            content: "";
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 215, 0, 0.4);
+            z-index: -1;
+            border-radius: 4px;
+        }
+        
+        .reading-speed {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            background: rgba(255, 248, 225, 0.9);
+            padding: 15px 25px;
+            border-radius: 50px;
+            justify-content: center;
+            border: 1px dashed #FF8C00;
+        }
+        
+        .speed-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: #c62828;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #FFD700;
+            font-size: 1.1rem;
+        }
+        
+        .speed-btn.active {
+            background: #FF8C00;
+            font-weight: bold;
+            transform: scale(1.05);
+        }
+        
+        .lantern {
+            position: absolute;
+            width: 70px;
+            height: 90px;
+            background: #e53935;
+            border-radius: 35px 35px 15px 15px;
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.3);
+            z-index: 0;
+            opacity: 0.1;
+        }
+        
+        .lantern::before {
+            content: "";
+            position: absolute;
+            top: -18px;
+            left: 25px;
+            width: 20px;
+            height: 18px;
+            background: #FFD700;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .lantern::after {
+            content: "";
+            position: absolute;
+            bottom: -25px;
+            left: 30px;
+            width: 10px;
+            height: 25px;
+            background: #FFD700;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .lantern-1 {
+            top: 30px;
+            left: 30px;
+            transform: rotate(5deg);
+        }
+        
+        .lantern-2 {
+            bottom: 30px;
+            right: 30px;
+            transform: rotate(-5deg);
+        }
+        
+        .chef-hat {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5rem;
+            color: white;
+            opacity: 0.2;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>春节故事</h1>
+        </header>
+        
+        <main>
+            <div class="card">
+                <div class="chef-hat">👨‍🍳</div>
+                <div class="card-header">
+                    <h2>春节回忆</h2>
+                </div>
+                <div class="card-content">
+                    <div class="lantern lantern-1"></div>
+                    <div class="lantern lantern-2"></div>
+                    
+                    <div class="story-text">
+                        <p><span class="highlight">去年春节</span>，我们全家去爷爷家。</p>
+                        
+                        <p>奶奶做了<span class="highlight">饺子</span>和<span class="highlight">鱼</span>，我和妹妹吃了很多。</p>
+                        
+                        <p>下午爸爸带我们放<span class="highlight">鞭炮</span>，声音很大！</p>
+                        
+                        <p>因为天气冷，我们没去公园，早早回家了。</p>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="btn play-btn" id="playButton">
+                        <i class="fas fa-play-circle"></i> 朗读故事
+                    </button>
+                    <div class="reading-speed">
+                        <span>朗读速度：</span>
+                        <div class="speed-btn active" data-speed="0.8">较慢</div>
+                        <div class="speed-btn" data-speed="1.0">正常</div>
+                    </div>
+                    <div class="volume-control">
+                        <i class="fas fa-volume-up"></i>
+                        <span>点击按钮听中文朗读</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>中华小当家@2025</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 故事文本
+        const storyText = `去年春节，我们全家去爷爷家。奶奶做了饺子和鱼，我和妹妹吃了很多。下午爸爸带我们放鞭炮，声音很大！因为天气冷，我们没去公园，早早回家了。`;
+        
+        // 获取按钮元素
+        const playButton = document.getElementById('playButton');
+        let isPlaying = false;
+        let currentUtterance = null;
+        let speechRate = 0.8; // 默认较慢语速
+        
+        // 设置朗读速度
+        const speedButtons = document.querySelectorAll('.speed-btn');
+        speedButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                speedButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                speechRate = parseFloat(btn.dataset.speed);
+                
+                // 如果正在朗读，重新开始
+                if (isPlaying) {
+                    window.speechSynthesis.cancel();
+                    playStory();
+                }
+            });
+        });
+        
+        // 播放故事函数
+        function playStory() {
+            // 停止当前正在播放的语音
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(storyText);
+            
+            // 设置语言为普通话
+            utterance.lang = 'zh-CN';
+            
+            // 设置语音参数
+            utterance.rate = speechRate; // 使用选择的语速
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+            
+            // 播放语音
+            window.speechSynthesis.speak(utterance);
+            currentUtterance = utterance;
+            
+            // 更新按钮状态
+            playButton.innerHTML = '<i class="fas fa-stop-circle"></i> 停止朗读';
+            playButton.style.background = 'linear-gradient(to right, #1E90FF, #006400)';
+            isPlaying = true;
+            
+            // 语音结束时恢复按钮状态
+            utterance.onend = () => {
+                playButton.innerHTML = '<i class="fas fa-play-circle"></i> 朗读故事';
+                playButton.style.background = 'linear-gradient(to right, #e53935, #c62828)';
+                isPlaying = false;
+            };
+        }
+        
+        // 按钮点击事件
+        playButton.addEventListener('click', () => {
+            if (isPlaying) {
+                // 停止播放
+                window.speechSynthesis.cancel();
+                playButton.innerHTML = '<i class="fas fa-play-circle"></i> 朗读故事';
+                playButton.style.background = 'linear-gradient(to right, #e53935, #c62828)';
+                isPlaying = false;
+            } else {
+                // 开始播放
+                playStory();
+            }
+        });
+        
+        // 初始化语音
+        function initSpeech() {
+            // 检查浏览器是否支持
+            if (!('speechSynthesis' in window)) {
+                alert('抱歉，您的浏览器不支持文本朗读功能。请使用最新版的Chrome、Edge或Safari浏览器。');
+                playButton.disabled = true;
+            }
+        }
+        
+        // 页面加载时初始化
+        window.addEventListener('load', initSpeech);
+    </script>
+</body>
+</html>
